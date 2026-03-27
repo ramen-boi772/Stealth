@@ -17,6 +17,7 @@
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a); /* subtle lofi gradient */
   }
 
   canvas#particles {
@@ -92,7 +93,7 @@
 <canvas id="particles"></canvas>
 
 <h1>Vexo SITE</h1>
-<h3>Link domain list for unblock shit</h3>
+<h3>Link domain list for unblock stuff</h3>
 <h3>WE DO NOT OWN ANY OF THESE WEBSITES NOR DO WE TAKE CREDIT FOR THEM.</h3>
 
 <div class="links">
@@ -149,17 +150,29 @@ class Particle {
     this.size = this.baseSize;
     this.speedX = (Math.random() - 0.5) * (Math.random() * 0.8 + 0.3);
     this.speedY = (Math.random() - 0.5) * (Math.random() * 0.8 + 0.3);
-    this.color = `rgba(0,255,163,${Math.random() * 0.3 + 0.1})`;
+
+    // Chill lofi colors
+    const lofiColors = [
+      'rgba(255,200,150,0.2)',  // warm peach
+      'rgba(150,200,255,0.2)',  // soft sky blue
+      'rgba(200,150,255,0.2)',  // lavender
+      'rgba(255,180,200,0.2)'   // soft pink
+    ];
+    this.color = lofiColors[Math.floor(Math.random() * lofiColors.length)];
+
     this.pulseAngle = Math.random() * Math.PI * 2;
     this.pulseSpeed = Math.random() * 0.03 + 0.01;
     this.pulseRange = Math.random() * 0.8 + 0.2;
     this.depthFactor = Math.random() * 0.2 + 0.1;
-    this.scrollFactor = Math.random() * 0.1 + 0.05; // how much it responds to scroll
+    this.scrollFactor = Math.random() * 0.1 + 0.05;
+
+    // Floating sway
+    this.swayOffset = Math.random() * 1000;
   }
 
   update() {
-    this.x += this.speedX;
-    this.y += this.speedY;
+    this.x += this.speedX + Math.sin(Date.now() * 0.001 + this.swayOffset) * 0.5;
+    this.y += this.speedY + Math.cos(Date.now() * 0.001 + this.swayOffset) * 0.5;
 
     // Wrap around edges
     if (this.x < 0) this.x = canvas.width;
@@ -167,9 +180,9 @@ class Particle {
     if (this.y < 0) this.y = canvas.height;
     if (this.y > canvas.height) this.y = 0;
 
-    // Pulse
+    // Pulse (soft)
     this.pulseAngle += this.pulseSpeed;
-    this.size = this.baseSize + Math.sin(this.pulseAngle) * this.pulseRange;
+    this.size = this.baseSize + Math.sin(this.pulseAngle) * (this.pulseRange * 0.3);
 
     // Parallax with mouse
     this.parallaxX = (mouseX - canvas.width / 2) * this.depthFactor;
@@ -182,7 +195,7 @@ class Particle {
   draw() {
     ctx.fillStyle = this.color;
     ctx.shadowColor = this.color;
-    ctx.shadowBlur = 6;
+    ctx.shadowBlur = 2; // soft shadow for lofi vibe
     ctx.beginPath();
     ctx.arc(this.x + this.parallaxX, this.y + this.parallaxY - this.scrollOffset, this.size, 0, Math.PI * 2);
     ctx.fill();
