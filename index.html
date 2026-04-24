@@ -6,40 +6,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vexo Site</title>
 <!-- Button on your main GitHub Pages site -->
-<button onclick="openCloaked()">Open Site in about:blank</button>
-
-<script>
 function openCloaked() {
-    // 1. Open a new about:blank window
-    var win = window.open();
-    win.document.title = "Google Classroom"; // Optional: Change the tab title
-    
-    // 2. Clear default margins for a clean look
-    var body = win.document.body;
-    body.style.margin = "0";
-    body.style.height = "100vh";
-    body.style.overflow = "hidden";
+    // 1. Open the about:blank window
+    var win = window.open('about:blank', '_blank');
 
-    // 3. Create the Button for the top-left corner
-    var btn = win.document.createElement('button');
-    btn.innerHTML = "Exit Page";
-    btn.style.position = "fixed";
-    btn.style.top = "10px";
-    btn.style.left = "10px";
-    btn.style.zIndex = "9999";
-    btn.onclick = function() { win.close(); }; // Close the tab when clicked
+    // 2. Define the HTML content (Iframe + Overlay Button)
+    var content = `
+        <style>
+            body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+            iframe { width: 100%; height: 100%; border: none; }
+            #overlay-btn {
+                position: fixed;
+                top: 10px;
+                left: 10px;
+                z-index: 9999;
+                padding: 10px 20px;
+                background: #333;
+                color: white;
+                border: none;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+        </style>
+        <button id="overlay-btn" onclick="window.close()">Close Site</button>
+        <iframe src="https://vexo-sirramenboi.github.io/Vexo-Site/"></iframe>
+    `;
 
-    // 4. Create the Iframe to show your GitHub website
-    var iframe = win.document.createElement('iframe');
-    iframe.style.width = "100%";
-    iframe.style.height = "100%";
-    iframe.style.border = "none";
-    iframe.src = window.location.href; // Loads your current GitHub URL
-
-    // 5. Add both to the new about:blank page
-    body.appendChild(btn);
-    body.appendChild(iframe);
+    // 3. Inject the content into the new window
+    win.document.write(content);
 }
+
 </script>
 
 <style>
