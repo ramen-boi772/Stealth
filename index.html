@@ -307,6 +307,39 @@ location.replace('about:blank');
 }
 });
 
+    function openAboutBlank() {
+    // 1. Open the new blank window
+    var win = window.open('about:blank', '_blank');
+    
+    // 2. Set up the iframe to load your website
+    var url = "https://vexo-sirramenboi.github.io/Vexo-Site/"; // Replace with your GitHub URL
+    var iframe = win.document.createElement('iframe');
+    iframe.style.width = "100vw";
+    iframe.style.height = "100vh";
+    iframe.style.border = "none";
+    iframe.style.position = "fixed";
+    iframe.style.top = "0";
+    iframe.style.left = "0";
+    iframe.src = url;
+
+    // 3. Create the overlay button
+    var btn = win.document.createElement('button');
+    btn.innerHTML = "Back to Site";
+    btn.style.position = "fixed";
+    btn.style.top = "10px";
+    btn.style.left = "10px";
+    btn.style.zIndex = "2147483647"; // Ensures it stays on top
+    btn.style.padding = "10px 20px";
+    
+    // Optional: Add functionality to the button
+    btn.onclick = function() {
+        win.close();
+    };
+
+    // 4. Inject elements into the blank window
+    win.document.body.style.margin = "0";
+    win.document.body.appendChild(iframe);
+    win.document.body.appendChild(btn);
 function openCloaked() {
   const win = window.open(); // Opens about:blank
   const url = "https://vexo-sirramenboi.github.io/Vexo-Site/"; // Replace with your GitHub URL
@@ -332,106 +365,6 @@ function openCloaked() {
   `;
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About:Blank Cloak</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .main-button {
-            padding: 12px 24px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .main-button:hover {
-            background-color: #45a049;
-        }
-        
-        .overlay-button {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            padding: 8px 16px;
-            font-size: 14px;
-            background-color: #2196F3;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            z-index: 9999;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-    </style>
-</head>
-<body>
-    <h1>About:Blank Cloak Demo</h1>
-    <p>Click the button below to open your website in an about:blank page with an overlay button.</p>
-    
-    <button class="main-button" onclick="openAboutBlank()">Open in About:Blank</button>
-    
-    <script>
-        function openAboutBlank() {
-            // Open a new blank window
-            const newWindow = window.open();
-            
-            // Get the URL of your current page (or replace with your GitHub Pages URL)
-            const currentUrl = window.location.href;
-            
-            // Create an iframe that fills the entire window
-            const iframe = newWindow.document.createElement('iframe');
-            iframe.style.width = '100%';
-            iframe.style.height = '100%';
-            iframe.style.border = 'none';
-            iframe.style.margin = '0';
-            iframe.style.padding = '0';
-            iframe.src = currentUrl;
-            
-            // Add the iframe to the new window
-            newWindow.document.body.appendChild(iframe);
-            
-            // Create the overlay button
-            const overlayButton = newWindow.document.createElement('button');
-            overlayButton.className = 'overlay-button';
-            overlayButton.textContent = 'Menu';
-            overlayButton.style.position = 'fixed';
-            overlayButton.style.top = '10px';
-            overlayButton.style.left = '10px';
-            overlayButton.style.zIndex = '9999';
-            overlayButton.onclick = function() {
-                alert('Menu clicked! You can add your menu functionality here.');
-            };
-            
-            // Add the overlay button to the new window
-            newWindow.document.body.appendChild(overlayButton);
-            
-            // Optional: Add CSS to ensure proper styling
-            const style = newWindow.document.createElement('style');
-            style.textContent = `
-                body {
-                    margin: 0;
-                    padding: 0;
-                    overflow: hidden;
-                }
-            `;
-            newWindow.document.head.appendChild(style);
-        }
-    </script>
-</body>
-</html>
 </script>
 
 </body>
